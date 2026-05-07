@@ -17,9 +17,6 @@
 // Initial score value at the beginning of each game round
 const INITIAL_SCORE = 20;
 
-// Delay before the game resets automatically after a correct guess
-const RESET_DELAY = 6000;
-
 /* ---------- DOM Elements ---------- */
 
 const elements = {
@@ -44,8 +41,6 @@ console.log(secretNumber);
 let score = INITIAL_SCORE;
 // Best score achieved during the current page session
 let highscore = 0;
-// Stores the timeout ID so it can be cleared when needed
-let resetTimeoutId;
 
 /* ---------- UI Helpers ---------- */
 
@@ -87,14 +82,6 @@ const handleCorrectGuess = () => {
     highscore = score;
     elements.highestScore.textContent = highscore;
   }
-
-  // Clear any previous reset timeout before starting a new one
-  clearTimeout(resetTimeoutId);
-
-  // Automatically reset the game after a short delay
-  resetTimeoutId = setTimeout(() => {
-    resetGame();
-  }, RESET_DELAY);
 };
 
 // Handle a wrong guess.
@@ -105,8 +92,6 @@ const handleWrongGuess = (message) => {
 
 // Reset the game to its initial state
 const resetGame = () => {
-  clearTimeout(resetTimeoutId);
-
   secretNumber = generateSecretNumber();
   score = INITIAL_SCORE;
 
@@ -115,6 +100,7 @@ const resetGame = () => {
   elements.guessInput.value = "";
   updateScore();
   document.body.style.backgroundColor = "#222";
+  elements.checkButton.disabled = false;
 };
 
 // Main function that handles the player's guess after clicking "Check"
@@ -133,15 +119,16 @@ const handleGuess = () => {
     return;
   }
 
-  // Wrong guess: too low
-  if (guess < secretNumber) {
-    handleWrongGuess("📉 Your number is too low!");
-    return;
-  }
+  // Wrong guess
+  guess < secretNumber
+    ? handleWrongGuess("📉 Your number is too low!")
+    : handleWrongGuess("📈 Your number is too high!");
 
-  // Wrong guess: too high
-  if (guess > secretNumber) {
-    handleWrongGuess("📈 Your number is too high!");
+  //Game over
+  if (score === 0) {
+    displayMesage("💥 GAME OVER");
+    revealNumber();
+    elements.checkButton.disabled = true;
   }
 };
 
