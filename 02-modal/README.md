@@ -21,7 +21,8 @@ The goal of this project is to practise DOM manipulation, event listeners and wo
 - Closes the modal after clicking the close button
 - Closes the modal after clicking the overlay
 - Closes the modal after pressing the `Escape` key
-- Uses CSS classes to show and hide elements
+- Uses the `hidden` CSS class to show and hide the modal
+- Uses `forEach()` to add event listeners to multiple buttons
 
 ## Technologies Used
 
@@ -31,13 +32,11 @@ The goal of this project is to practise DOM manipulation, event listeners and wo
 
 ## How It Works
 
-The modal and overlay are hidden by default using the `hidden` class.
+The modal and overlay are hidden by default with the `hidden` class.
 
-## Main Functions
+JavaScript selects all modal buttons and adds a click event listener to each of them. When a button is clicked, the modal and overlay are shown by removing the `hidden` class.
 
-### `generateSecretNumber()`
-
-Generates a random number between 1 and 20.
+The modal is closed by adding the `hidden` class again. This happens when the user clicks the close button, clicks the overlay, or presses the `Escape` key.
 
 ## Project Status
-in progress
+done
