@@ -8,6 +8,7 @@ const close = document.querySelector(".close-modal");
 function openModal() {
   modal.classList.add("hidden");
   overal.classList.add("hidden");
+  console.log("open");
 }
 
 function closeModal() {
